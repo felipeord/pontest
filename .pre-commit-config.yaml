@@ -1,0 +1,33 @@
+fail_fast: false
+exclude: ^(deploy/|migrations/)
+default_language_version:
+  python: python3.12
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v4.5.0"
+    hooks:
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: name-tests-test
+      - id: check-ast
+      - id: check-toml
+
+  - repo: https://github.com/psf/black
+    rev: "23.11.0"
+    hooks:
+      - id: black
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: "v3.0.2"
+    hooks:
+      - id: pylint
+        args: ["--rcfile=pyproject.toml"]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.7.1"
+    hooks:
+      - id: mypy
+        args: ["--config-file", "pyproject.toml"]

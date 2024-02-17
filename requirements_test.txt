@@ -1,0 +1,9 @@
+-r requirements.txt
+uvicorn[standard]~=0.24.0
+alembic
+pytest
+pytest-cov ~= 4.0.0
+asgi_lifespan
+trio
+httpx
+coverage
