@@ -44,12 +44,13 @@ async def queue_tickets(tickets: list[Ticket]) -> asyncio.Queue:
 
 async def process_ticket(filename, ticket: Ticket, agent_id: int):
     """Process ticket"""
-    print(f"Agent: {agent_id} processing ticket {ticket.id}...")
+    # print(f"Agent: {agent_id} processing ticket {ticket.id}...")
     date_ticket_assigned = datetime.now()
     processing_time = random.uniform(2, 3)
+    # print(f"Processing time: {processing_time} seconds.")
     await asyncio.sleep(processing_time)
     date_ticket_done = datetime.now()
-    print(f"Ticket {ticket.id} processed by agent {agent_id}.")
+    # print(f"Ticket {ticket.id} processed by agent {agent_id}.")
     await write_to_log(filename, agent_id, ticket, date_ticket_assigned, date_ticket_done)
 
 
