@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from pydantic import BaseModel, Field
 
@@ -8,6 +9,6 @@ class Ticket(BaseModel):  # type: ignore
     """
 
     id: int
-    creation_date: str
+    creation_date: datetime
     priority: int
 
