@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime
+from app.utils.date_util import get_today_str
 
 import aiofiles
 
@@ -14,7 +14,7 @@ async def run_sim(agents: int):
     tickets = await sort_tickets(tickets)
     q = await queue_tickets(tickets)
 
-    report_file_name = f"{datetime.now()}_simulacion_{agents}_agentes_{len(tickets)}_casos.csv"
+    report_file_name = f"{get_today_str()}_simulacion_{agents}_agentes_{len(tickets)}_casos.csv"
     async with aiofiles.open(report_file_name, 'a') as csvfile:
         await csvfile.write("id,fecha_creacion, prioridad, agente, fecha_asignacion, fecha_resolucion\n")
     # semaphore para controlar el numero de tickets que se pueden ejecutar al tiempo
@@ -25,6 +25,7 @@ async def run_sim(agents: int):
 
     await asyncio.gather(*agent_processes)
     await q.join()
+    return report_file_name
 
 
 async def agent_process(filename, agent_id: int, q: asyncio.Queue, semaphore: asyncio.Semaphore):
