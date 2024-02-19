@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     """Get Settings from env file or env variables"""
 
-    PROJECT_NAME: str = "call-center-sim"
+    PROJECT_NAME: str = "Call Center Sim"
     PROJECT_VERSION: str = "0.0.1"
     DEBUG: bool = False
 
