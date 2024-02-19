@@ -1,4 +1,5 @@
 """Config for async session for DE MYSQL"""
+
 from typing import AsyncGenerator
 import pytest
 from httpx import AsyncClient

@@ -18,8 +18,8 @@ async def create_ticket(id: int, creation_date: datetime, priority: int) -> Tick
 async def load_tickets(file_path: str) -> list[dict]:
     """Load tickets from file"""
     tickets = []
-    with open(file_path, newline='') as csvfile:
-        ticket_reader = csv.reader(csvfile, delimiter=',')
+    with open(file_path, newline="") as csvfile:
+        ticket_reader = csv.reader(csvfile, delimiter=",")
         next(ticket_reader)  # encabezado
         for row in ticket_reader:
             # print(row[0], row[1], row[2])
@@ -51,13 +51,18 @@ async def process_ticket(filename, ticket: Ticket, agent_id: int):
     await asyncio.sleep(processing_time)
     date_ticket_done = datetime.now()
     # print(f"Ticket {ticket.id} processed by agent {agent_id}.")
-    await write_to_log(filename, agent_id, ticket, date_ticket_assigned, date_ticket_done)
+    await write_to_log(
+        filename, agent_id, ticket, date_ticket_assigned, date_ticket_done
+    )
 
 
-async def write_to_log(filename, agent_id, ticket, date_ticket_assigned, date_ticket_done):
-    async with aiofiles.open(filename, 'a') as csvfile:
+async def write_to_log(
+    filename, agent_id, ticket, date_ticket_assigned, date_ticket_done
+):
+    async with aiofiles.open(filename, "a") as csvfile:
         creation_date = format_date_log(ticket.creation_date)
         dta = format_time_log(date_ticket_assigned)
         dtd = format_time_log(date_ticket_done)
         await csvfile.write(
-            f"{ticket.id},{creation_date},{ticket.priority},{agent_id},{dta},{dtd}\n")
+            f"{ticket.id},{creation_date},{ticket.priority},{agent_id},{dta},{dtd}\n"
+        )

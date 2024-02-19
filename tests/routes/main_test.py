@@ -1,4 +1,5 @@
 """Test main route """
+
 import pytest
 from httpx import AsyncClient
 from app.config.settings import settings

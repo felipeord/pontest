@@ -11,4 +11,3 @@ class Ticket(BaseModel):  # type: ignore
     id: int
     creation_date: datetime
     priority: int
-
