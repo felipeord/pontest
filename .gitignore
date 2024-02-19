@@ -144,3 +144,4 @@ ssh.pub
 # direnv
 .direnv/
 .envrc
+reports/*
