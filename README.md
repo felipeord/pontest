@@ -44,7 +44,7 @@ Este documento describe el desarrollo de un sistema de simulación de un call ce
 - **Registro de Eventos:** Registrar el momento en que se toma un ticket, el momento en que se completa, y el agente que atendió el ticket.
 - **Simulación de Atención de Tickets:** Operar cada agente de forma paralela, asumiendo un tiempo aleatorio de atención entre 2 y 3 segundos.
 - **Sistema de Monitoreo:** Utilizar un archivo CSV para observar el progreso de los registros de atención.
-- **Sistema de administración de datasets:** Permitir el manejo de datasets para diferentes simulaciones.
+
 
 ## Características Opcionales
 
@@ -52,6 +52,7 @@ Este documento describe el desarrollo de un sistema de simulación de un call ce
 - Registro/seguimiento de cambios en una base de datos.
 - API para la carga de datasets.
 - API para ejecutar simulaciones.
+- Sistema de administración de datasets para permitir el manejo de datasets para diferentes simulaciones.
 
 ## Definiciones
 
@@ -71,9 +72,10 @@ Este documento describe el desarrollo de un sistema de simulación de un call ce
 
 ### Iteración 2
 
-- Prefijar el archivo de resultados con la fecha y hora en que se inició la simulación.
+- Nombrar el archivo de resultados con la fecha y hora en que se inició la simulación.
 - Permitir simulaciones con un número personalizado de agentes.
 - Implementar un servicio para la carga de datasets.
 - Crear un endpoint para los casos especificados (3, 5, 10 agentes).
 - Solo se guardará el último dataset cargado, nombrado `tickets_dataset.csv`, en la carpeta `uploads`.
 - Los informes se guardarán en la carpeta `reports`.
+ ##
