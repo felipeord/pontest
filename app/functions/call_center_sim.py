@@ -1,4 +1,7 @@
 import asyncio
+
+import os
+
 from app.utils.date_util import get_today_str
 
 import aiofiles
@@ -13,6 +16,8 @@ async def run_sim(agents: int):
     # ordenar los tickets, según los parámetros elegidos
     tickets = await sort_tickets(tickets)
     q = await queue_tickets(tickets)
+
+    os.makedirs('reports', exist_ok=True)
 
     report_file_name = f"reports/{get_today_str()}_simulacion_{agents}_agentes_{len(tickets)}_casos.csv"
     async with aiofiles.open(report_file_name, 'a') as csvfile:
