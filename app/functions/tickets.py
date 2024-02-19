@@ -7,7 +7,7 @@ import random
 import aiofiles as aiofiles
 
 from app.models import Ticket
-from app.utils.date_util import format_date_log
+from app.utils.date_util import format_date_log, format_time_log
 
 
 async def create_ticket(id: int, creation_date: datetime, priority: int) -> Ticket:
@@ -57,7 +57,7 @@ async def process_ticket(filename, ticket: Ticket, agent_id: int):
 async def write_to_log(filename, agent_id, ticket, date_ticket_assigned, date_ticket_done):
     async with aiofiles.open(filename, 'a') as csvfile:
         creation_date = format_date_log(ticket.creation_date)
-        dta = format_date_log(date_ticket_assigned)
-        dtd = format_date_log(date_ticket_done)
+        dta = format_time_log(date_ticket_assigned)
+        dtd = format_time_log(date_ticket_done)
         await csvfile.write(
             f"{ticket.id},{creation_date},{ticket.priority},{agent_id},{dta},{dtd}\n")

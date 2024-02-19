@@ -21,11 +21,11 @@ async def run_sim(agents: int):
 
     report_file_name = f"reports/{get_today_str()}_simulacion_{agents}_agentes_{len(tickets)}_casos.csv"
     async with aiofiles.open(report_file_name, 'a') as csvfile:
-        await csvfile.write("id,fecha_creacion, prioridad, agente, fecha_asignacion, fecha_resolucion\n")
-    # semaphore para controlar el numero de tickets que se pueden ejecutar al tiempo
+        await csvfile.write("id,fecha_creacion,prioridad,agente,fecha_asignacion,fecha_resolucion\n")
+    # semaphore para controlar el número de tickets que se pueden ejecutar al tiempo
     semaphore = asyncio.Semaphore(agents)
 
-    # el número de agent_processes viene dado por el numero de agentes que se van a simular
+    # el número de agent_processes viene dado por el número de agentes que se van a simular
     agent_processes = [agent_process(report_file_name, i, q, semaphore) for i in range(agents)]
 
     await asyncio.gather(*agent_processes)

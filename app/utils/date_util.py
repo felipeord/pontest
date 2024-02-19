@@ -11,6 +11,16 @@ def get_today_str() -> str:
     return datetime.now().strftime("%y%m%d%H%M%S")
 
 
-def format_date_log(date: datetime) -> str:
+def format_date_log_debug(date: datetime) -> str:
     """Format date"""
     return date.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+
+
+def format_date_log(date: datetime) -> str:
+    """Format date"""
+    return date.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def format_time_log(date: datetime) -> str:
+    """Format date"""
+    return date.strftime("%H:%M:%S")
