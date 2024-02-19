@@ -14,6 +14,8 @@ COPY --chmod=0744 ./deploy /
 COPY --from=venv /packages /packages
 COPY main.py /app/main.py
 COPY ./app /app/app
+COPY ./uploads /app/uploads
+COPY ./reports /app/reports
 
 EXPOSE 80
 CMD /start.sh

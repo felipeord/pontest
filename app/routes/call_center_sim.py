@@ -1,5 +1,7 @@
 import csv
+import os
 from io import StringIO
+from typing import List
 
 import aiofiles
 from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
@@ -72,3 +74,25 @@ async def get_sorted():
 
     output.seek(0)
     return StreamingResponse(output, media_type="text/csv")
+
+
+@router.get("/list-reports/", response_model=List[str], tags=["Test Data"])
+async def list_reports():
+    reports_dir = 'reports'  # Asegúrate de que esta ruta sea correcta
+    try:
+        # Lista los archivos en el directorio
+        files = os.listdir(reports_dir)
+        # Filtra para obtener solo archivos, excluyendo subdirectorios
+        files = [file for file in files if os.path.isfile(os.path.join(reports_dir, file))]
+        return files
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/download-report/{filename}", tags=["Test Data"])
+async def download_report(filename: str):
+    file_path = os.path.join('reports', filename)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return FileResponse(path=file_path, filename=filename, media_type='application/octet-stream')
+    else:
+        raise HTTPException(status_code=404, detail="Archivo no encontrado")
