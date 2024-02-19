@@ -15,3 +15,4 @@ ehandler~=0.5.1
 DateTime~=4.4
 aiofiles~=23.2.1
 greenlet==2.0.0a2
+uvicorn==0.17.6
