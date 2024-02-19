@@ -1,19 +1,30 @@
 import csv
 from io import StringIO
 
-from fastapi import APIRouter
-from fastapi.responses import FileResponse, StreamingResponse
+import aiofiles
+from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
+from fastapi.responses import FileResponse, StreamingResponse, JSONResponse
 from ehandler import Route
 from app.functions import run_sim, load_tickets, sort_tickets, queue_tickets, process_ticket, write_to_log
-
 
 router = APIRouter(route_class=Route)
 
 
-@router.get("/run_sim/", tags=["Sim"])
+@router.post("/start_fixed_sims/", tags=["Sim"])
+async def start_fixed_sims(background_tasks: BackgroundTasks):
+    """
+    Correr simulaciones con 3, 5 y 10 agentes.
+    """
+    background_tasks.add_task(run_sim, 3)
+    background_tasks.add_task(run_sim, 5)
+    background_tasks.add_task(run_sim, 10)
+    return 'Simulaciones en ejecución..'
+
+
+@router.post("/run_sim/", tags=["Sim"])
 async def run_simulation(agents: int = 3):
     """
-    Run the call center simulation
+    Correr una simulación con con el archivo cargado. El número de agentes es un parámetro opcional.
     """
     report = await run_sim(agents=agents)
     headers = {
@@ -22,7 +33,7 @@ async def run_simulation(agents: int = 3):
     return FileResponse(path=report, filename=report, media_type='text/csv')
 
 
-@router.get("/get_sorted/", tags=["Sim"])
+@router.get("/get_sorted/", tags=["Test Data"])
 async def get_sorted():
     """
     Get the sorted tickets
@@ -39,3 +50,20 @@ async def get_sorted():
     output.seek(0)
     return StreamingResponse(output, media_type="text/csv")
 
+
+@router.post("/upload_sim_csv/", tags=["Upload"])
+async def upload_sim_csv(file: UploadFile = File(...)):
+    """
+    Load the csv file with the tickets
+    """
+    if file.content_type != "text/csv":
+        raise HTTPException(status_code=400, detail="File must be a csv")
+
+    file_path = f"uploads/tickets_dataset.csv"
+    async with aiofiles.open(file_path, 'wb') as out_file:
+        content = await file.read()  # Leer el contenido del archivo subido
+        await out_file.write(content)
+
+    await file.close()
+
+    return JSONResponse(content={"filename": file_path})

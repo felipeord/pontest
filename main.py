@@ -4,7 +4,6 @@ from ehandler import Route, handler, MsgSpecResponse, http_client
 from app.routes import call_center_sim
 from app.config.settings import get_settings, Settings
 
-
 # create app
 
 app = FastAPI(
@@ -18,11 +17,4 @@ app = FastAPI(
 app.router.route_class = Route
 handler.handlers += [(ValueError, 400), (NoResultFound, 404)]
 
-
-@app.get(path="/", summary="Root", description="Info and version API", tags=["Info"])
-async def root(settings: Settings = Depends(get_settings)) -> dict[str, str]:
-    """Return version of the service"""
-    return {"service": settings.PROJECT_NAME, "version": settings.PROJECT_VERSION}
-
-
-app.include_router(call_center_sim.router, prefix="/csc", tags=["CSC"])
+app.include_router(call_center_sim.router)

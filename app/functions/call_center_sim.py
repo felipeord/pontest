@@ -9,12 +9,12 @@ from app.functions import sort_tickets, load_tickets, queue_tickets, process_tic
 async def run_sim(agents: int):
     """Run the call center simulation"""
     # cargar los tickets
-    tickets = await load_tickets("tickets_dataset.csv")
+    tickets = await load_tickets("uploads/tickets_dataset.csv")
     # ordenar los tickets, según los parámetros elegidos
     tickets = await sort_tickets(tickets)
     q = await queue_tickets(tickets)
 
-    report_file_name = f"{get_today_str()}_simulacion_{agents}_agentes_{len(tickets)}_casos.csv"
+    report_file_name = f"reports/{get_today_str()}_simulacion_{agents}_agentes_{len(tickets)}_casos.csv"
     async with aiofiles.open(report_file_name, 'a') as csvfile:
         await csvfile.write("id,fecha_creacion, prioridad, agente, fecha_asignacion, fecha_resolucion\n")
     # semaphore para controlar el numero de tickets que se pueden ejecutar al tiempo
@@ -41,4 +41,3 @@ async def agent_process(filename, agent_id: int, q: asyncio.Queue, semaphore: as
                 return
             finally:
                 q.task_done()
-
