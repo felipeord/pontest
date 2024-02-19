@@ -17,4 +17,11 @@ app = FastAPI(
 app.router.route_class = Route
 handler.handlers += [(ValueError, 400), (NoResultFound, 404)]
 
+
+@app.get(path="/", include_in_schema=False)
+async def root(settings: Settings = Depends(get_settings)) -> dict[str, str]:
+    """Return version of the service"""
+    return {"App": settings.PROJECT_NAME, "version": settings.PROJECT_VERSION}
+
+
 app.include_router(call_center_sim.router)
