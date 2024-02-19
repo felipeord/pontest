@@ -15,13 +15,6 @@ class Settings(BaseSettings):
         env_file=("example.env", ".env", "dev.env", "prod.env"), extra="ignore"
     )
 
-    DB_ENGINE: str = "mysql+aiomysql"
-    DB_IP: str
-    DB_USER: str
-    DB_PASSWORD: str
-    DB_NAME: str = "call_center_sim"
-    DB_PORT: int = 3306
-
 
 settings = Settings()
 

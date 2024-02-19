@@ -1,9 +1,5 @@
 FROM python:3.12-slim AS venv
 
-RUN apt update && apt -y install git gcc g++ && \
-    apt-get clean && \
-    mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> /root/.ssh/known_hosts
-
 COPY requirements.txt requirements.txt
 RUN --mount=type=ssh python -m pip install --upgrade pip \
     pip install --no-cache-dir -r requirements.txt -t /packages/
